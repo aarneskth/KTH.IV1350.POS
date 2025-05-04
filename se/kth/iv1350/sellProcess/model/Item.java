@@ -46,8 +46,9 @@ public class Item {
     }
 
     public double getPrice() {
-
-        return price;
+        double pris = 0;
+        pris = price * itemGetAmount(); // to calcylate the amount of items scanned with the same item ID
+        return pris;
     }
 
     public double getVatRate() {

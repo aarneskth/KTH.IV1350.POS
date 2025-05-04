@@ -15,7 +15,7 @@ public class ItemTest {
 
     @BeforeEach
     void setUp() {
-        itemDTO = new ItemDTO("MILK", 200, 0.55, "MILK123");
+        itemDTO = new ItemDTO("MILK", 20, 0.12, "MILK123");
         item = new Item(itemDTO, 2);
     }
 
@@ -42,12 +42,12 @@ public class ItemTest {
 
     @Test
     void testGetPrice() {
-        assertEquals(200.0, item.getPrice(), 0.0001);
+        assertEquals(40.0, item.getPrice());
     }
 
     @Test
     void testGetVatRate() {
-        assertEquals(0.55, item.getVatRate(), 0.0001);
+        assertEquals(0.12, item.getVatRate());
     }
 
     @Test

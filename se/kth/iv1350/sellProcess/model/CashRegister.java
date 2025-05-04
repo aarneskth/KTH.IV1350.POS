@@ -1,5 +1,9 @@
 package se.kth.iv1350.sellProcess.model;
 
+import se.kth.iv1350.sellProcess.integration.PayedAmount;
+import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
+import se.kth.iv1350.sellProcess.model.Change;
+
 public class CashRegister {
 
 
@@ -12,5 +16,8 @@ public class CashRegister {
         
     }
 
-    public AmountOfChange calcylateChange(SaleDTO saleInfo)
-}
+    public Change calcylateChange(SaleDTO saleInfo){
+        Change change = new Change();
+        return change;
+        }
+    }

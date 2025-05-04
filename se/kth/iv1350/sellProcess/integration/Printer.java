@@ -36,9 +36,9 @@ public class Printer {
         System.out.println("---------------------------");
         System.out.println("Moms " + data.getVAT() + " kr");
         System.out.println("Totalpris: " + data.getTotalPrice() + " kr");
-        System.out.println("You payed: " + payedAmount.getAmount());
+        System.out.println("Kontant betalning: " + payedAmount.getAmount() + " kr");
         System.out.println("---------------------------------------------");
-        System.out.println("välkommen åter");
+        System.out.println("Välkommen åter!");
     }
 
 }

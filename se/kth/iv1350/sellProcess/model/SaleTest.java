@@ -25,19 +25,19 @@ public class SaleTest {
     }
 
     @Test
-    void testCalculateTotaVAT() {
+    void testCalculateTotalVAT() {
         sale.scanitem("GLASS123", 1);
-        double vat = sale.calculateTotaVAT();
+        double vat = sale.calculateTotalVAT();
         assertTrue(vat > 0, "Moms bör vara större än 0 efter en vara skannats.");
     }
 
     @Test
     void testCalculateTotalPriceWithVat() {
-        sale.scanitem("GLASS123", 1);
+        sale.scanitem("GLASS123", 2);
         sale.scanitem("MJÖLK123", 1);
-        sale.calculateTotaVAT();
+        sale.calculateTotalVAT();
         double total = sale.calculateTotalPriceWithVat();
-        assertEquals(22.4, total, 0.01);
+        assertEquals(44.8, total);
     }
 
     @Test
@@ -64,6 +64,7 @@ public class SaleTest {
     void testScanitem() {
 
         sale.scanitem("GLASS123", 3);
+        sale.scanitem("GLASS124", 3);
         SaleDTO info = sale.getSaleInfo();
         assertEquals(3, info.getAllItems().get(0).itemGetAmount());
     }

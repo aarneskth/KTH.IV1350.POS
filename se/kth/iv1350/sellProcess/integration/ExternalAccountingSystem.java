@@ -1,6 +1,6 @@
 package se.kth.iv1350.sellProcess.integration;
 
-import se.kth.iv1350.sellProcess.model.item;
+import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 
 public class ExternalAccountingSystem {
 

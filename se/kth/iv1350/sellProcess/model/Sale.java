@@ -33,7 +33,7 @@ public class Sale {
 
     public void printReceipt(Printer printer, PayedAmount payedAmount) {
 
-        calculateTotaVAT();
+        calculateTotalVAT();
         calculateTotalPriceWithVat();
         SaleDTO saleInfo = getSaleInfo();
         Receipt receipt = new Receipt(saleInfo);
@@ -41,17 +41,34 @@ public class Sale {
 
     }
 
+        /*
+     * scanItem  the method represents the process of scanning an item at the POS where the cashier
+     *           also could enter the amount of items to buy.
+     * 
+     * @param itemID    itemID is the code that the cashier scans/enters to get the item information
+     *                  from the external inventory system.
+     * 
+     * @param itemAmount tells the amount of the certain item just to be scanned. 
+     */
+
     public void scanitem(String itemID, int itemAmount) { // tog bort ExternalSystemInevntory
 
         ItemDTO ItemDTO = getItem(itemID);
 
+        if(ItemDTO == null){
+
+            System.out.println("Ingen vara hittades.");
+        }else{
+        
+            Item additem = new Item(ItemDTO, itemAmount);
+            itemList.add(additem);
+        }
+
         // ItemDTO ItemDTO = inventorySystem.getItem(itemID);
         // ItemDTO ItemDTO = new ItemDTO(itemID,40,);
 
-        Item additem = new Item(ItemDTO, itemAmount);
-        itemList.add(additem);
-
     }
+
 
     public SaleDTO getSaleInfo() {
 
@@ -60,7 +77,12 @@ public class Sale {
         return itemBuy;
     }
 
-    public double calculateTotaVAT() {
+    /*
+     * calcylateTotalVAT        Gives the total amount of tax in SEK for all items scanned.
+     * 
+     */
+
+    public double calculateTotalVAT() {
 
         for (Item item : itemList) {
 
@@ -69,6 +91,12 @@ public class Sale {
 
         return VAT;
     }
+
+        /*
+     * alculateTotalPriceWithVat    Gives info about the total cost for the customer for 
+     * buying the goods
+     * 
+     */
 
     public double calculateTotalPriceWithVat() {
 
@@ -81,30 +109,18 @@ public class Sale {
         return totalPrice;
     }
 
-    /*
-     * public Item additem(String itemName, double itemPrice, double itemVATRate,
-     * String itemID){
-     * 
-     * ItemDTO ItemDTO = new ItemDTO(itemID,itemPrice,itemVATRate,itemID);
-     * 
-     * Item item = new Item(ItemDTO, 1);
-     * 
-     * return item;
-     * 
-     * }
-     */
 
     private ItemDTO getItem(String itemID) {
         switch (itemID) {
             case "GLASS123":
                 return new ItemDTO("Glass", 10, 0.12, "GLASS123");
             case "MJÖLK123":
-                return new ItemDTO("Mjölk", 10, 0.12, "MJÖLK123");
+                return new ItemDTO("MJÖLK", 20, 0.12, "MJÖLK123");
             case "AVAKADO123":
                 return new ItemDTO("AVACADO", 10, 0.12, "AVACADO123");
 
             default:
-                return new ItemDTO("Okänd vara", 100, 5.0, itemID);
+                return null;
         }
 
     }
