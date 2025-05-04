@@ -1,0 +1,112 @@
+package se.kth.iv1350.sellProcess.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import se.kth.iv1350.sellProcess.integration.*;
+import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
+import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
+
+public class Sale {
+    double discount;
+    double VAT;
+    double totalPrice;
+    List<Item> itemList;
+    private SaleDTO itemBuy;
+
+    /*
+     * creates a new instance, Represents the Sale at the point of sale in a retail
+     * store.
+     *
+     */
+
+    public Sale() {
+
+        itemList = new ArrayList<>();
+    }
+
+    /*
+     * printreceipt Prints the receipt of the sale.
+     * 
+     * @param printer representing the printing machine for the receipe.
+     */
+
+    public void printReceipt(Printer printer, PayedAmount payedAmount) {
+
+        calculateTotaVAT();
+        calculateTotalPriceWithVat();
+        SaleDTO saleInfo = getSaleInfo();
+        Receipt receipt = new Receipt(saleInfo);
+        printer.printReceipt(receipt, payedAmount);
+
+    }
+
+    public void scanitem(String itemID, int itemAmount) { // tog bort ExternalSystemInevntory
+
+        ItemDTO ItemDTO = getItem(itemID);
+
+        // ItemDTO ItemDTO = inventorySystem.getItem(itemID);
+        // ItemDTO ItemDTO = new ItemDTO(itemID,40,);
+
+        Item additem = new Item(ItemDTO, itemAmount);
+        itemList.add(additem);
+
+    }
+
+    public SaleDTO getSaleInfo() {
+
+        itemBuy = new SaleDTO(VAT, totalPrice, discount, itemList);
+
+        return itemBuy;
+    }
+
+    public double calculateTotaVAT() {
+
+        for (Item item : itemList) {
+
+            VAT += item.getVatRate() * item.getPrice();
+        }
+
+        return VAT;
+    }
+
+    public double calculateTotalPriceWithVat() {
+
+        for (Item item : itemList) {
+
+            totalPrice += item.getPrice();
+        }
+
+        totalPrice = (VAT) + totalPrice;
+        return totalPrice;
+    }
+
+    /*
+     * public Item additem(String itemName, double itemPrice, double itemVATRate,
+     * String itemID){
+     * 
+     * ItemDTO ItemDTO = new ItemDTO(itemID,itemPrice,itemVATRate,itemID);
+     * 
+     * Item item = new Item(ItemDTO, 1);
+     * 
+     * return item;
+     * 
+     * }
+     */
+
+    private ItemDTO getItem(String itemID) {
+        switch (itemID) {
+            case "GLASS123":
+                return new ItemDTO("Glass", 10, 0.12, "GLASS123");
+            case "MJÖLK123":
+                return new ItemDTO("Mjölk", 10, 0.12, "MJÖLK123");
+            case "AVAKADO123":
+                return new ItemDTO("AVACADO", 10, 0.12, "AVACADO123");
+
+            default:
+                return new ItemDTO("Okänd vara", 100, 5.0, itemID);
+        }
+
+    }
+
+}
