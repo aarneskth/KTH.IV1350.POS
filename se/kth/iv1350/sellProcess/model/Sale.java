@@ -51,7 +51,7 @@ public class Sale {
      * @param itemAmount tells the amount of the certain item just to be scanned. 
      */
 
-    public void scanitem(String itemID, int itemAmount) { // tog bort ExternalSystemInevntory
+    public Item scanitem(String itemID, int itemAmount) { // tog bort ExternalSystemInevntory
 
         ItemDTO ItemDTO = getItem(itemID);
 

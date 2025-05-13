@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import se.kth.iv1350.sellProcess.model.Item;
-import se.kth.iv1350.sellProcess.integration.DTO.*;;
+import se.kth.iv1350.sellProcess.integration.DTO.*;
+import se.kth.iv1350.sellProcess.integration.*;
 
 
 public class ExternalInventorySystem {
@@ -32,8 +33,8 @@ public class ExternalInventorySystem {
 
     }
 
-    public ItemDTO getItem(String itemID){
-
+    public ItemDTO getItem(String itemID, int itemAmount) throws IllegalAmountException {
+        if(itemAmount < 1)
 
        return invnetory.get(itemID);
         

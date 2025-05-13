@@ -46,13 +46,13 @@ public class Controller {
      * }
      */
 
-    public void scanItem(String itemID, int itemAmount) {
-
-        if (sale == null) {
+    public Item scanItem(String itemID, int itemAmount) {
+           if (sale == null) {
             System.out.println("Ingen aktiv försäljning.");
-            return;
+            return null;
         }
-        sale.scanitem(itemID, itemAmount);
+        return sale.scanitem(itemDTO, itemAmount); //lagt till retur+extinvsys /*, inventorySystem*/
+    }
 
         /*
          * ItemDTO glass = new ItemDTO(itemID, itemAmount, itemAmount, itemID);
@@ -87,4 +87,4 @@ public class Controller {
 
     }
 
-}
+
