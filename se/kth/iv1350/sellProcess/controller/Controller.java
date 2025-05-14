@@ -46,11 +46,13 @@ public class Controller {
      * }
      */
 
-    public Item scanItem(String itemID, int itemAmount) {
+    public Item scanItem(String itemID, int itemAmount) throws IllegalAmountException{
            if (sale == null) {
             System.out.println("Ingen aktiv försäljning.");
             return null;
         }
+
+      ItemDTO itemDTO = inventorySystem.getItem(itemID, itemAmount);
         return sale.scanitem(itemDTO, itemAmount); //lagt till retur+extinvsys /*, inventorySystem*/
     }
 
@@ -60,7 +62,6 @@ public class Controller {
          * ItemDTO ItemDTO = inventorySystem.getItem(itemID);
          * Item apple = new Item(ItemDTO,2);
          */
-    }
 
     public void pay(PayedAmount payedAmount) {
 
@@ -83,8 +84,9 @@ public class Controller {
 
     public void endsale() {
         System.out.println("Försäljningen är avslutad.");
-        sale = null;
+        //sale = null;
 
     }
+}
 
 

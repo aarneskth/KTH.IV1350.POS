@@ -6,6 +6,7 @@ public class ItemDTO {
     private double itemPrice;
     private double itemVATRate;
     private String itemID;
+    private String itemInfo;
 
         /*
      *  Creates a new instance, representing the parameters in itemDTO
@@ -17,11 +18,12 @@ public class ItemDTO {
      * 
      */
 
-    public ItemDTO(String itemName, double itemPrice, double itemVATRate, String itemID) {
+    public ItemDTO(String itemName, double itemPrice, double itemVATRate, String itemID, String itemInfo) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemVATRate = itemVATRate;
         this.itemID = itemID;
+        this.itemInfo = itemInfo;
     }
 
     public double getPrice() {
@@ -39,5 +41,10 @@ public class ItemDTO {
     public String getitemID() {
 
         return itemID;
+    }
+    
+    public String getitemInfo() {
+
+        return itemInfo;
     }
 }

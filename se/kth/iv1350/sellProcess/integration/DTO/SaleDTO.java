@@ -1,6 +1,7 @@
 package se.kth.iv1350.sellProcess.integration.DTO;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import se.kth.iv1350.sellProcess.model.Item;
@@ -32,7 +33,7 @@ public class SaleDTO {
         this.VAT = VAT;
         this.totalPrice = totalPrice;
         this.discount = discount;
-        this.itemList = itemList;
+        this.itemList = Collections.unmodifiableList(itemList);
     }
 
     public double getTotalPrice() {

@@ -23,9 +23,10 @@ public class Printer {
 
     public void printReceipt(Receipt receipt, PayedAmount payedAmount) {
 
+        StringBuilder saleData = new StringBuilder();
         SaleDTO data = receipt.getReceipt();
 
-        System.out.println("\n------KVITTO-------");
+        saleData.append("\n------KVITTO-------\n");
 
         for (Item item : data.getAllItems()) {
 
@@ -33,12 +34,12 @@ public class Printer {
 
         }
 
-        System.out.println("---------------------------");
-        System.out.println("Moms " + data.getVAT() + " kr");
-        System.out.println("Totalpris: " + data.getTotalPrice() + " kr");
-        System.out.println("Kontant betalning: " + payedAmount.getAmount() + " kr");
-        System.out.println("---------------------------------------------");
-        System.out.println("Välkommen åter!");
+        saleData.append("---------------------------\n");
+        saleData.append("Moms " + data.getVAT() + " kr\n");
+        saleData.append("Totalpris: " + data.getTotalPrice() + " kr\n");
+        saleData.append("Kontant betalning: " + payedAmount.getAmount() + " kr\n");
+        saleData.append("---------------------------------------------\n");
+        saleData.append("Välkommen åter!\n");
     }
 
 }

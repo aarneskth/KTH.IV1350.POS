@@ -13,6 +13,8 @@ public class Sale {
     double totalPrice;
     List<Item> itemList;
     private SaleDTO itemBuy;
+    private Item item;
+    private ItemDTO itemDTO;
 
     /*
      * creates a new instance, Represents the Sale at the point of sale in a retail
@@ -51,22 +53,12 @@ public class Sale {
      * @param itemAmount tells the amount of the certain item just to be scanned. 
      */
 
-    public Item scanitem(String itemID, int itemAmount) { // tog bort ExternalSystemInevntory
+    public Item scanitem(ItemDTO itemDTO, int itemAmount) { // tog bort ExternalSystemInevntory
 
-        ItemDTO ItemDTO = getItem(itemID);
+            item = new Item(itemDTO, itemAmount);
+            itemList.add(item);
 
-        if(ItemDTO == null){
-
-            System.out.println("Ingen vara hittades.");
-        }else{
-        
-            Item additem = new Item(ItemDTO, itemAmount);
-            itemList.add(additem);
-        }
-
-        // ItemDTO ItemDTO = inventorySystem.getItem(itemID);
-        // ItemDTO ItemDTO = new ItemDTO(itemID,40,);
-
+        return item;
     }
 
 
@@ -109,13 +101,13 @@ public class Sale {
         return totalPrice;
     }
 
-
+/*
     private ItemDTO getItem(String itemID) {
         switch (itemID) {
             case "GLASS123":
                 return new ItemDTO("Glass", 10, 0.12, "GLASS123");
             case "MJÖLK123":
-                return new ItemDTO("MJÖLK", 20, 0.12, "MJÖLK123");
+                return new ItemDTO("Mjölk", 20, 0.12, "MJÖLK123");
             case "AVAKADO123":
                 return new ItemDTO("AVACADO", 10, 0.12, "AVACADO123");
 
@@ -124,5 +116,5 @@ public class Sale {
         }
 
     }
-
+*/
 }

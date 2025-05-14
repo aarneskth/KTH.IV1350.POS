@@ -12,7 +12,7 @@ public class ExternalInventorySystem {
     //private Item inventory;
     //private ItemDTO iteminfo;
 
-    private final Map<String, ItemDTO> invnetory = new HashMap<>();
+    private final Map<String, ItemDTO> inventory = new HashMap<>();
         
 
   /*
@@ -21,25 +21,37 @@ public class ExternalInventorySystem {
    */
     public ExternalInventorySystem(){
 
-        String köttbulle = "KOTT123";
-        String honung = "Hon123";
-        String apple = "APP123";
-        invnetory.put(apple, new ItemDTO("ÄPPLE",2,0.12,apple));
-        invnetory.put(honung, new ItemDTO("HONUNG",54.90,0.12,honung));
-        invnetory.put(köttbulle, new ItemDTO("KÖTTBULLE",28.90,0.12,köttbulle));
-        //inventory = new Item(new ItemDTO("honung",54.90,1.13,honung));
-        //inventory = new Item(new ItemDTO("äpplen",2,1.12,apple));
-        //invnetory.get(apple);
-
+        String köttbullar = "KOTT123";
+        String honung = "HON123";
+        String äpplen = "APP123";
+        inventory.put(äpplen, new ItemDTO("Äpplen",2,0.12,äpplen, "Aroma 1 kg"));
+        inventory.put(honung, new ItemDTO("Honung",54.90,0.12,honung, "Bigården svensk 300 gram"));
+        inventory.put(köttbullar, new ItemDTO("Köttbullar",28.90,0.12,köttbullar, "Änglamark 600 gram"));
     }
 
     public ItemDTO getItem(String itemID, int itemAmount) throws IllegalAmountException {
-        if(itemAmount < 1)
 
-       return invnetory.get(itemID);
+            if(itemAmount < 0 || itemAmount==0){
+
+                throw new IllegalAmountException (IllegalAmount.NONPOSITIVE);
+            }
+            if(!inventory.containsKey(itemID)){
+                throw new IllegalAmountException (IllegalAmount.IDNOTFOUND);
+            }
+           return inventory.get(itemID);
+        }
         
+
+    private  boolean itemInInventory(String itemID){
+        
+        if(inventory.get(itemID) != null){
+        return true;
+        }
+        
+        return false;
     }
 
+    
     /*
      * UpdateInventory      Uppdates the list of items available in the store.
      * 
