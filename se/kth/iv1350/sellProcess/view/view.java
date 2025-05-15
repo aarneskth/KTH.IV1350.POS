@@ -1,8 +1,6 @@
 package se.kth.iv1350.sellProcess.view;
 
 import se.kth.iv1350.sellProcess.controller.Controller;
-import se.kth.iv1350.sellProcess.integration.PayedAmount;
-import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.model.*;
 
@@ -16,28 +14,33 @@ public class view {
         this.controller = controller;
     }
 
-    public void startSale() throws IllegalAmountException {
+    public void startSale()  {
 
         controller.startSale();
 
         String itemsToBuy[][] = {
-            {"HON123", "1"},
+            {"HON123", "1.5"},
             {"FEL123", "1"},
             {"APP123", "0"},            
             {"APP123", "2"},
             {"KOTT123", "1"}};
 
             for (String [] string: itemsToBuy){
-                String stringID = string[0];
-                int amount = Integer.parseInt(string[1]);
+                String stringID;
+                int amount = 0;
 
         try{
 
+            stringID = string[0];
+            amount = Integer.parseInt(string[1]);
+
         Item item = controller.scanItem(stringID,amount);
 
-        } catch (IllegalAmountException e){
+        } catch (ItemCantBeRegException e){
             System.out.println (e.getMessage());
             
+        }catch(NumberFormatException ee){
+            System.out.println ();
         }
 
         //controller.scanItem("HON123", 1);
@@ -45,12 +48,13 @@ public class view {
         scanAndPrint("MJÖLK123", 1);
         scanAndPrint("FEL_ID", 1); */
 
-       
-
-
     }
     PayedAmount paidAmount = new PayedAmount(100);
     controller.pay(paidAmount);
+
+    System.out.println(controller.getKvitto());
+     System.out.println("Sale has ended");
+    
         controller.endsale();
     /*private void scanAndPrint(String itemID, int amount) throws IllegalAmountException{
         Item item = controller.scanItem(itemID, amount);

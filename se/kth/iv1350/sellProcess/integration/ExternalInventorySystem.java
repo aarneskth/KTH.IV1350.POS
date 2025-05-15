@@ -2,10 +2,7 @@ package se.kth.iv1350.sellProcess.integration;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import se.kth.iv1350.sellProcess.model.Item;
 import se.kth.iv1350.sellProcess.integration.DTO.*;
-import se.kth.iv1350.sellProcess.integration.*;
 
 
 public class ExternalInventorySystem {
@@ -29,15 +26,17 @@ public class ExternalInventorySystem {
         inventory.put(köttbullar, new ItemDTO("Köttbullar",28.90,0.12,köttbullar, "Änglamark 600 gram"));
     }
 
-    public ItemDTO getItem(String itemID, int itemAmount) throws IllegalAmountException {
+    public ItemDTO getItem(String itemID, int itemAmount) throws ItemCantBeRegException {
 
-            if(itemAmount < 0 || itemAmount==0){
+            if(itemAmount <= 0 || itemAmount%1 !=0){
 
-                throw new IllegalAmountException (IllegalAmount.NONPOSITIVE);
+                throw new ItemCantBeRegException (ItemCantBeReg.NO_POS_INT,itemAmount);
             }
             if(!inventory.containsKey(itemID)){
-                throw new IllegalAmountException (IllegalAmount.IDNOTFOUND);
+                throw new ItemCantBeRegException (ItemCantBeReg.ID_NOT_FOUND,itemID);
             }
+
+            
            return inventory.get(itemID);
         }
         

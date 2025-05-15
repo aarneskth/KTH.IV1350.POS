@@ -1,11 +1,12 @@
 package se.kth.iv1350.sellProcess.integration;
 
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
-import se.kth.iv1350.sellProcess.model.Receipt;
 import se.kth.iv1350.sellProcess.model.Item;
+import se.kth.iv1350.sellProcess.model.Receipt;
 
 public class Printer {
 
+    private StringBuilder saleData;
     /*
      * Creates a new instance, representing the printing machine for the receipe.
      */
@@ -23,15 +24,14 @@ public class Printer {
 
     public void printReceipt(Receipt receipt, PayedAmount payedAmount) {
 
-        StringBuilder saleData = new StringBuilder();
+         saleData = new StringBuilder();
         SaleDTO data = receipt.getReceipt();
 
         saleData.append("\n------KVITTO-------\n");
 
         for (Item item : data.getAllItems()) {
 
-            System.out.println(item);
-
+            saleData.append(item.toString()).append("\n");
         }
 
         saleData.append("---------------------------\n");
@@ -40,6 +40,11 @@ public class Printer {
         saleData.append("Kontant betalning: " + payedAmount.getAmount() + " kr\n");
         saleData.append("---------------------------------------------\n");
         saleData.append("Välkommen åter!\n");
+    }
+
+    public String getKvitto(){
+
+        return saleData.toString();
     }
 
 }

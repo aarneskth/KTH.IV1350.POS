@@ -1,8 +1,8 @@
 package se.kth.iv1350.sellProcess.controller;
 
-import se.kth.iv1350.sellProcess.model.*;
-import se.kth.iv1350.sellProcess.integration.DTO.*;
 import se.kth.iv1350.sellProcess.integration.*;
+import se.kth.iv1350.sellProcess.integration.DTO.*;
+import se.kth.iv1350.sellProcess.model.*;
 
 public class Controller {
     private Printer printer;
@@ -46,11 +46,8 @@ public class Controller {
      * }
      */
 
-    public Item scanItem(String itemID, int itemAmount) throws IllegalAmountException{
-           if (sale == null) {
-            System.out.println("Ingen aktiv försäljning.");
-            return null;
-        }
+    public Item scanItem(String itemID, int itemAmount) throws ItemCantBeRegException{
+          
 
       ItemDTO itemDTO = inventorySystem.getItem(itemID, itemAmount);
         return sale.scanitem(itemDTO, itemAmount); //lagt till retur+extinvsys /*, inventorySystem*/
@@ -82,8 +79,12 @@ public class Controller {
         return saleinfoDto;
     }
 
+    public String getKvitto(){
+
+        return printer.getKvitto();
+    }
+
     public void endsale() {
-        System.out.println("Försäljningen är avslutad.");
         //sale = null;
 
     }
