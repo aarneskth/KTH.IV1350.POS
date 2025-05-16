@@ -26,7 +26,9 @@ public class ItemCantBeRegException extends Exception{
               String itemID = (String) info;
               yield "Varan med ID:nummret \"" + itemID + "\" kunde ej hittas. Ej registrerad.";
             }
-
+            case INSUFFICENT_STOCK -> {
+              yield "Varan registrerad för köp. Otillräckligt antal av varan i lager. Kontrollera lagerstatus.";
+            }
             
         };
 

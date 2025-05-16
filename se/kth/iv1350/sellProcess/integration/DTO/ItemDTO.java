@@ -26,7 +26,7 @@ public class ItemDTO {
         this.itemInfo = itemInfo;
     }
 
-    public double getPrice() {
+    public double getItemPrice() {
         return itemPrice;
     }
 
@@ -38,12 +38,12 @@ public class ItemDTO {
         return itemName;
     }
 
-    public String getitemID() {
+    public String getItemID() {
 
         return itemID;
     }
     
-    public String getitemInfo() {
+    public String getItemInfo() {
 
         return itemInfo;
     }

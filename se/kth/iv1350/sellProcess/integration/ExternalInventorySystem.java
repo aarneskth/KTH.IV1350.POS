@@ -3,13 +3,14 @@ package se.kth.iv1350.sellProcess.integration;
 import java.util.HashMap;
 import java.util.Map;
 import se.kth.iv1350.sellProcess.integration.DTO.*;
+import se.kth.iv1350.sellProcess.model.Item;
 
 
 public class ExternalInventorySystem {
     //private Item inventory;
     //private ItemDTO iteminfo;
 
-    private final Map<String, ItemDTO> inventory = new HashMap<>();
+    private final Map<String, InventoryObject> inventory = new HashMap<>();
         
 
   /*
@@ -18,12 +19,14 @@ public class ExternalInventorySystem {
    */
     public ExternalInventorySystem(){
 
-        String köttbullar = "KOTT123";
+        String ost = "OST123";
         String honung = "HON123";
         String äpplen = "APP123";
-        inventory.put(äpplen, new ItemDTO("Äpplen",2,0.12,äpplen, "Aroma 1 kg"));
-        inventory.put(honung, new ItemDTO("Honung",54.90,0.12,honung, "Bigården svensk 300 gram"));
-        inventory.put(köttbullar, new ItemDTO("Köttbullar",28.90,0.12,köttbullar, "Änglamark 600 gram"));
+        String sparris = "SPA123";
+        inventory.put(äpplen, new InventoryObject (new ItemDTO("Äpplen",14.90,0.12,äpplen, "Aroma 1 kg"),10));
+        inventory.put(honung, new InventoryObject (new ItemDTO("Honung",54.90,0.12,honung, "svensk"),35));
+        inventory.put(ost, new InventoryObject (new ItemDTO("Ost",49.90,0.12,ost, "Saint Agur"),15));
+        inventory.put(sparris, new InventoryObject (new ItemDTO("Sparris",27.90,0.12,sparris, "grön"),4));
     }
 
     public ItemDTO getItem(String itemID, int itemAmount) throws ItemCantBeRegException {
@@ -35,9 +38,13 @@ public class ExternalInventorySystem {
             if(!inventory.containsKey(itemID)){
                 throw new ItemCantBeRegException (ItemCantBeReg.ID_NOT_FOUND,itemID);
             }
-
+            if(itemAmount > inventory.get(itemID).getItemAmount())
+            {
+                throw new ItemCantBeRegException(ItemCantBeReg.INSUFFICENT_STOCK, itemID);
+            }
+            inventory.get(itemID).setNewAmount(itemAmount);
             
-           return inventory.get(itemID);
+           return inventory.get(itemID).getItemDTO();
         }
         
 
@@ -57,11 +64,17 @@ public class ExternalInventorySystem {
      * @param saleInfo      Saleinfo contains information about what items and how many that are removed or added to the inventory/store. 
      */
 
-    public void updateInventory(SaleDTO saleinfo)
-    {
-        
+    public void updateInventory(SaleDTO saleInfo) {
+    for (Item soldItem : saleInfo.getAllItems()) {
+        String itemID = soldItem.getItemID();
+        int amountSold = soldItem.itemGetAmount();
 
+        ItemDTO itemInInventory = inventory.get(itemID).getItemDTO();
+        if (itemInInventory != null) {
+        }
     }
+}
+
 
    
 

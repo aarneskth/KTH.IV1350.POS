@@ -9,9 +9,9 @@ import se.kth.iv1350.sellProcess.model.Discount;
 
 public class DiscountRegister {
 
-    private double discount = 0.10;
-    private double percentToBeReduced;
-    private double SumToBeReduced;
+    private final double memberDiscountRate = 0.10;
+    private final double percentToBeReduced;
+    private final double sumToBeReduced;
     private List<Discount> discounts = new ArrayList<>();
 
     /*
@@ -22,13 +22,9 @@ public class DiscountRegister {
 
     
     public DiscountRegister(){
+        percentToBeReduced = 0;
+        sumToBeReduced = 0;
 
-
-        
-
-        /*discounts.add(new Discount("APP123", 2, 0, 40)); 
-
-        discounts.add(new Discount("KOTT123", 1, 0.75, 0)); */  
     }
 
     /*
@@ -49,23 +45,12 @@ public class DiscountRegister {
      */
 
 
-    public double checkDiscount(SaleDTO saleInfo, boolean membershipStatus)
-    {
-
-
-       /* if(membershipStatus == true){
-
-            double discount = saleInfo.getTotalPrice() * 0.10;
-
-            return discount;
-        }*/
-
-        double discount = saleInfo.getTotalPrice() * 0.10;
-
-        return discount;
-
-      
-
+    public double checkDiscount(SaleDTO saleInfo, boolean membershipStatus){
+        if(membershipStatus){
+            double priceNOVAT = saleInfo.getTotalPrice() - saleInfo.getVAT();
+            return priceNOVAT * memberDiscountRate;
+        }
+        return 0;
     }
 
 }

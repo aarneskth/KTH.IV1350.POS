@@ -6,15 +6,18 @@ import java.util.List;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
+import se.kth.iv1350.sellProcess.view.SaleObserver;
 
 public class Sale {
     double discount;
     double VAT;
     double totalPrice;
     List<Item> itemList;
-    private SaleDTO itemBuy;
+    private SaleDTO theSale;
     private Item item;
     private ItemDTO itemDTO;
+    private List<SaleObserver> observers = new ArrayList<>();
+    private double totalRevenue;
 
     /*
      * creates a new instance, Represents the Sale at the point of sale in a retail
@@ -27,6 +30,18 @@ public class Sale {
         itemList = new ArrayList<>();
     }
 
+       private void notifyObserver(){
+        for (SaleObserver obs : observers){
+            obs.sumUpSale(this.totalRevenue);
+        }
+    }
+
+    public void addObserver(SaleObserver observer){
+        observers.add(observer);
+    }
+
+ 
+
     /*
      * printreceipt Prints the receipt of the sale.
      * 
@@ -36,10 +51,12 @@ public class Sale {
     public void printReceipt(Printer printer, PayedAmount payedAmount) {
 
         calculateTotalVAT();
-        calculateTotalPriceWithVat();
+        calculateTotalPriceWithVat(); 
         SaleDTO saleInfo = getSaleInfo();
         Receipt receipt = new Receipt(saleInfo);
+        this.totalRevenue+=saleInfo.getTotalPrice();
         printer.printReceipt(receipt, payedAmount);
+        notifyObserver();
 
     }
 
@@ -63,10 +80,12 @@ public class Sale {
 
 
     public SaleDTO getSaleInfo() {
-
-        itemBuy = new SaleDTO(VAT, totalPrice, discount, itemList);
-
-        return itemBuy;
+        double priceAfterDiscount = totalPrice - discount;
+        if(priceAfterDiscount < 0){
+            priceAfterDiscount = 0;
+        }
+        theSale = new SaleDTO(VAT, priceAfterDiscount, discount, itemList);
+        return theSale;
     }
 
     /*
@@ -75,7 +94,7 @@ public class Sale {
      */
 
     public double calculateTotalVAT() {
-
+        VAT = 0;
         for (Item item : itemList) {
 
             VAT += item.getVatRate() * item.getPrice();
@@ -91,30 +110,18 @@ public class Sale {
      */
 
     public double calculateTotalPriceWithVat() {
-
+        totalPrice = 0;
         for (Item item : itemList) {
 
             totalPrice += item.getPrice();
         }
 
-        totalPrice = (VAT) + totalPrice;
+        totalPrice = VAT + totalPrice - discount;
         return totalPrice;
     }
 
-/*
-    private ItemDTO getItem(String itemID) {
-        switch (itemID) {
-            case "GLASS123":
-                return new ItemDTO("Glass", 10, 0.12, "GLASS123");
-            case "MJÖLK123":
-                return new ItemDTO("Mjölk", 20, 0.12, "MJÖLK123");
-            case "AVAKADO123":
-                return new ItemDTO("AVACADO", 10, 0.12, "AVACADO123");
-
-            default:
-                return null;
-        }
-
+    public void setDiscount(double discount){
+        this.discount = discount;
     }
-*/
+
 }

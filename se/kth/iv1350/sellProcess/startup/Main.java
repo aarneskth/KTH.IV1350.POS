@@ -3,7 +3,6 @@ package se.kth.iv1350.sellProcess.startup;
 import se.kth.iv1350.sellProcess.controller.Controller;
 import se.kth.iv1350.sellProcess.integration.ExternalAccountingSystem;
 import se.kth.iv1350.sellProcess.integration.ExternalInventorySystem;
-import se.kth.iv1350.sellProcess.integration.ItemCantBeRegException;
 import se.kth.iv1350.sellProcess.integration.Printer;
 import se.kth.iv1350.sellProcess.view.view;
 

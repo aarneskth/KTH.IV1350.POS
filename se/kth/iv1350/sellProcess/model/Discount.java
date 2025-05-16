@@ -15,13 +15,8 @@ public class Discount {
      * 
      */
 
-        public Discount()
-    {
-       /*this.itemID = itemID;
-        this.req = req;
-        this.fixedDiscount= fixedDiscount;
-        this.percentage = percentage;*/
-        
+    public Discount(){
+        this.register = new DiscountRegister();  
     }
 
     /*
@@ -35,26 +30,6 @@ public class Discount {
 
     public double checkDiscount(SaleDTO saleInfo, boolean membershipStatus){
         
-        register = new DiscountRegister();
-
-
-       /*for (int i = 0; i <  saleInfo.getAllItems().size(); i++) {
-
-        if(saleInfo.getAllItems().get(i).itemGetAmount()){
-
-        };
-
-       }
-
-       if(membershipStatus==true){
-
-        double memberBonus= saleInfo.getTotalPrice() -fixedDsicount;
-
-        return memberBonus;
-       }*/
-
-     
-       
         return register.checkDiscount(saleInfo, membershipStatus);
     }
 

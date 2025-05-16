@@ -27,11 +27,11 @@ public class Item {
     public Item(ItemDTO itemDTO, int itemAmount) {
 
         this.itemName = itemDTO.getItemName();
-        this.price = itemDTO.getPrice();
+        this.price = itemDTO.getItemPrice();
         this.vatRate = itemDTO.getItemVatRate();
         this.amount = itemAmount;
         this.itemDTO = itemDTO;
-        this.itemID = itemDTO.getitemID();
+        this.itemID = itemDTO.getItemID();
 
     }
 
@@ -66,9 +66,22 @@ public class Item {
         return amount;
     }
 
-    @Override
+    /*@Override
     public String toString() {
 
         return itemDTO.getItemName() + " x" + amount + " - " + getPrice() + " kr";
-    }
+    }*/
+
+    @Override
+    public String toString() {
+    return String.format(
+        "%s (%s), antal: %d, pris/st: %.2f kr, totalt: %.2f kr",
+        itemDTO.getItemName(),
+        itemDTO.getItemInfo(),
+        amount,
+        itemDTO.getItemPrice(),
+        getPrice()
+    );
+}
+
 }

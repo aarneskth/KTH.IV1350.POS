@@ -3,16 +3,16 @@ package se.kth.iv1350.sellProcess.controller;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.integration.DTO.*;
 import se.kth.iv1350.sellProcess.model.*;
+import se.kth.iv1350.sellProcess.view.SaleObserver;
 
 public class Controller {
     private Printer printer;
     private ExternalInventorySystem inventorySystem;
     private ExternalAccountingSystem accountingSystem;
-    // private Sale sale;
+    private CustomerMembershipRegister membershipRegister;
     private Discount discount;
 
     Sale sale = new Sale();
-    // private List<Item> itemList;
 
     /*
      * creates a new instance, Represents the Con you get as a proof of the payment.
@@ -27,7 +27,8 @@ public class Controller {
         this.printer = printer;
         this.inventorySystem = inventorySystem;
         this.accountingSystem = accountingSystem;
-        // this.sale= sale;
+        this.discount = new Discount();
+        this.membershipRegister = new CustomerMembershipRegister();
     }
 
     public void startSale() {
@@ -65,18 +66,20 @@ public class Controller {
         sale.printReceipt(printer, payedAmount);
     }
 
-    public void checkDiscount(SaleDTO saleDTO, boolean membershipStatus) {
-
+    public void checkDiscount(boolean membershipStatus) {
+        SaleDTO saleInfo = sale.getSaleInfo();
+        double discountAmount = discount.checkDiscount(saleInfo, membershipStatus);
+        sale.setDiscount(discountAmount);
+        sale.calculateTotalPriceWithVat();
     }
 
-    public boolean checkMembershipStatus(String customerName, int customerID) {
+    public boolean checkMembershipStatus(String customerName, String customerID) {
 
-        return true;
+        return membershipRegister.checkMembershipStatus(customerName, customerID);
     }
 
-    public SaleDTO getSaleInfo(SaleDTO saleinfoDto) {
-
-        return saleinfoDto;
+    public SaleDTO getSaleInfo() {
+        return sale.getSaleInfo();
     }
 
     public String getKvitto(){
@@ -84,7 +87,11 @@ public class Controller {
         return printer.getKvitto();
     }
 
-    public void endsale() {
+    public void addSaleObserver(SaleObserver obs){
+        sale.addObserver(obs);
+    }
+
+        public void endsale() {
         //sale = null;
 
     }

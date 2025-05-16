@@ -3,6 +3,7 @@ package se.kth.iv1350.sellProcess.view;
 import se.kth.iv1350.sellProcess.controller.Controller;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.model.*;
+import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 
 
 
@@ -12,18 +13,25 @@ public class view {
 
     public view(Controller controller) {
         this.controller = controller;
+        TotalRevenueView totalRevenueView = new TotalRevenueView();
+        controller.addSaleObserver(totalRevenueView);
     }
 
     public void startSale()  {
 
         controller.startSale();
 
+        TotalRevenueView totalRevenueView = new TotalRevenueView();
+        controller.addSaleObserver(totalRevenueView);
+       
         String itemsToBuy[][] = {
             {"HON123", "1.5"},
+            {"HON123", "1"},
             {"FEL123", "1"},
             {"APP123", "0"},            
             {"APP123", "2"},
-            {"KOTT123", "1"}};
+            {"OST123", "1"},
+            {"SPA123", "1"}};
 
             for (String [] string: itemsToBuy){
                 String stringID;
@@ -43,31 +51,20 @@ public class view {
             System.out.println ();
         }
 
-        //controller.scanItem("HON123", 1);
-        /*scanAndPrint("GLASS123", 2);
-        scanAndPrint("MJÖLK123", 1);
-        scanAndPrint("FEL_ID", 1); */
-
     }
-    PayedAmount paidAmount = new PayedAmount(100);
+
+    boolean isMember = controller.checkMembershipStatus("Björn", "ID123");
+    controller.checkDiscount(isMember);
+    SaleDTO saleInfo = controller.getSaleInfo();
+
+    PayedAmount paidAmount = new PayedAmount(200);
     controller.pay(paidAmount);
 
     System.out.println(controller.getKvitto());
-     System.out.println("Sale has ended");
+  
+    System.out.println("Försäljningen avslutad.");
     
         controller.endsale();
-    /*private void scanAndPrint(String itemID, int amount) throws IllegalAmountException{
-        Item item = controller.scanItem(itemID, amount);
-            
-        }
-
-        if (item == null) {
-            System.out.println("Varning: Varan med ID '" + itemID + "' hittades inte.");
-        } else {
-            System.out.println("Skannad vara: " + item.getName() + 
-                               ", Pris: " + item.getPrice() + 
-                               ", Moms: " + (item.getVatRate() * 100) + " %");
-        }*/
     }
 }
 

@@ -6,18 +6,26 @@ import se.kth.iv1350.sellProcess.integration.PayedAmount;
 public class Change {
 
     private PayedAmount amount;
+    private SaleDTO saleInfo;
     private double change;
-    private SaleDTO saleDTO;
 
-    public Change(PayedAmount amount,SaleDTO saleDTO) {
+    /*
+     * Konstruktorn tar betalat belopp och försäljningsinfon
+     * för att beräkna växeln.
+     * 
+     * @param
+     */
+
+    public Change(PayedAmount amount, SaleDTO saleInfo) {
         this.amount = amount;
-        this.saleDTO = saleDTO;
+        this.saleInfo = saleInfo;       
+
 
     }
 
     public void calculateChange(){
 
-        change =  saleDTO.getTotalPrice() - amount.getAmount();
+        change = amount.getAmount() - saleInfo.getTotalPrice();
     }
 
 

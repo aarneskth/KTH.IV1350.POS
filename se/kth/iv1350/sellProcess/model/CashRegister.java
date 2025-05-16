@@ -5,6 +5,7 @@ import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 import se.kth.iv1350.sellProcess.model.Change;
 
 public class CashRegister {
+    private PayedAmount payment;
 
 
 
@@ -13,11 +14,12 @@ public class CashRegister {
     }
 
     public void addPayment(PayedAmount payment){
-        
+        this.payment = payment;
     }
 
     public Change calcylateChange(SaleDTO saleInfo){
-        Change change = new Change();
+        Change change = new Change(payment, saleInfo);
+        change.calculateChange();
         return change;
         }
     }
