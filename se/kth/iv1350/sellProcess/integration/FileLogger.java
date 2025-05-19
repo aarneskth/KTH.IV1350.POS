@@ -21,7 +21,7 @@ public class FileLogger implements  Logger{
     public FileLogger() {
         try {
             logStream = new PrintWriter(
-                new FileWriter("log.txt"), true);
+                new FileWriter("ExceptionLog.txt"), true);
         } catch (IOException ioe) {
             System.out.println("CAN NOT LOG.");
             ioe.printStackTrace();

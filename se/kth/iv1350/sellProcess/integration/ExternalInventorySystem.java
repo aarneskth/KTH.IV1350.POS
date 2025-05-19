@@ -29,23 +29,26 @@ public class ExternalInventorySystem {
         inventory.put(sparris, new InventoryObject (new ItemDTO("Sparris",27.90,0.12,sparris, "grön"),4));
     }
 
-    public ItemDTO getItem(String itemID, int itemAmount) throws ItemCantBeRegException, DatabaseFailureException {
+    public ItemDTO getItem(String itemID, int itemAmount) throws InvalidInputException, DatabaseFailureException, InsufficentStockException {
 
             if("DataBasFel123".equals(itemID)){
 
-                throw new DatabaseFailureException("Kan inte ansluta till databasen med artikel nummer"+ "\"" + itemID + "\""+ " DataBasFel");
+                throw new DatabaseFailureException(itemID);
             }
         
             if(itemAmount <= 0 || itemAmount%1 !=0){
 
-                throw new ItemCantBeRegException (ItemCantBeReg.NO_POS_INT,itemAmount);
+                throw new InvalidInputException (InvalidInput.NO_POS_INT, itemAmount);
             }
+
             if(!inventory.containsKey(itemID)){
-                throw new ItemCantBeRegException (ItemCantBeReg.ID_NOT_FOUND,itemID);
+
+                throw new InvalidInputException(InvalidInput.ID_NOT_FOUND, itemID);
             }
+
             if(itemAmount > inventory.get(itemID).getItemAmount())
             {
-                throw new ItemCantBeRegException(ItemCantBeReg.INSUFFICENT_STOCK, itemID);
+                throw new InsufficentStockException(itemID);
             }
             inventory.get(itemID).setNewAmount(itemAmount);
             
@@ -70,6 +73,7 @@ public class ExternalInventorySystem {
      */
 
     public void updateInventory(SaleDTO saleInfo) {
+        
     for (Item soldItem : saleInfo.getAllItems()) {
         String itemID = soldItem.getItemID();
         int amountSold = soldItem.itemGetAmount();

@@ -47,17 +47,23 @@ public class view {
 
         Item item = controller.scanItem(stringID,amount);
 
-        } catch (ItemCantBeRegException e){
-            System.out.println (e.getMessage());
+        } catch (InvalidItemInputException invalidScan){
+            System.out.println (invalidScan.getMessage());
             
-        }catch(NumberFormatException ee){
+        }catch(NumberFormatException nonInt){
 
-            System.out.println ("Måste vara Hela varor");
+            System.out.println("Icke heltal angett. Varan ej registrerad. Vänlig korrigera.");
 
-        } catch(DatabaseFailureException eee){
-             System.out.println("Databasfel! Kunde inte registrera varan");
-             
+        }catch(ItemScanFailureException itemscan){
+
+            itemscan.getMessage();
         }
+        
+        
+        /* catch(DatabaseFailureException eee){
+             System.out.println("Kunde inte komma åt databasen, varan ej registrerad!");
+             
+        }*/
 
     }
 
