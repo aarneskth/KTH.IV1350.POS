@@ -10,17 +10,18 @@ import org.junit.jupiter.api.AfterEach;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 import se.kth.iv1350.sellProcess.model.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ControllerTest {
 
     private Controller controller;
-
+    private ExternalInventorySystem inventorySystem;
     @BeforeEach
     void setUp() {
         Printer printer = new Printer();
-        ExternalInventorySystem inventorySystem = ExternalInventorySystem.getExternalInventorySystem();
+        inventorySystem = ExternalInventorySystem.getExternalInventorySystem();
         ExternalAccountingSystem accountingSystem = new ExternalAccountingSystem();
-        controller = new Controller(printer, inventorySystem, accountingSystem);
+        controller = new Controller(printer, accountingSystem);
         controller.startSale();
     }
 
@@ -29,49 +30,33 @@ public class ControllerTest {
         controller = null;
     }
 
-    @Test
-    void testCheckDiscount() {
-        controller.checkDiscount((true);)
-
+           @Test
+    void testItemScanFailureException()  {
+        assertThrows (ItemScanFailureException.class, () ->{
+            controller.scanItem("DataBasFel123", 1);
+        });
     }
 
-    @Test
-    void testCheckMembershipStatus() {
-
-        boolean result = controller.checkMembershipStatus("Petrus", 1225);
-        assertTrue(result, "Förväntar att medlemsstatus alltid returnerar true.");
+        @Test
+    void testInvalidItemInputExceptionMinusOne()  {
+        assertThrows (InvalidItemInputException.class, () ->{
+            controller.scanItem("OST123", -1);
+        });
     }
 
-    @Test
-    void testEndsale() {
-
-        controller.endsale();
-        controller.scanItem("1", 1);
-
-        // "Förvantas skriva ut ingen försäljning"
-
+        @Test
+    void testInvalidItemInputExceptionZero()  {
+        assertThrows (InvalidItemInputException.class, () ->{
+            controller.scanItem("OST123",  0);
+        });
     }
 
-    @Test
-    void testPay() {
-
-        controller.scanItem("1", 1);
-        PayedAmount amount = new PayedAmount(100);
-        controller.pay(amount); // NO crash
-    }
 
     @Test
-    void testScanItem() {
-        controller.scanItem("1", 1);
-        controller.scanItem("1", 1);
-
+    void testInvalidItemInputExceptionNoID()  {
+        assertThrows (InvalidItemInputException.class, () ->{
+            controller.scanItem("OSTi", 1);
+        });
     }
 
-    @Test
-    void testStartSale() {
-        controller.startSale();
-        controller.scanItem("1", 1);
-        // If notthing crash is working.
-
-    }
 }

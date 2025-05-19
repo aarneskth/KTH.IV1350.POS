@@ -7,6 +7,7 @@ import se.kth.iv1350.sellProcess.integration.DTO.*;
 import se.kth.iv1350.sellProcess.model.*;
 import se.kth.iv1350.sellProcess.view.SaleObserver;
 
+
 public class Controller {
     private Printer printer;
     private ExternalInventorySystem inventorySystem;
@@ -53,30 +54,37 @@ public class Controller {
      * }
      */
 
-    public Item scanItem(String itemID, int itemAmount) throws ItemCantBeRegException,DatabaseFailureException{
-
-
+    public Item scanItem(String itemID, int itemAmount) throws ItemScanFailureException, InvalidItemInputException{
 
         try {
             this.itemDTO = externalInventorySystem.getItem(itemID, itemAmount);
 
-        } catch (ItemCantBeRegException regException) {
+        } catch (InvalidInputException regException) {
 
             StringWriter papper = new StringWriter();
             PrintWriter penna = new PrintWriter(papper);
             regException.printStackTrace(penna);
             String  stachTraceString = papper.toString();
             logger.log(regException.getMessage() +" \n" + stachTraceString);
-          throw regException;
+          
+            throw new InvalidItemInputException(regException.getReason(),regException.getObjects());
 
-        }catch(DatabaseFailureException databaseFailure){
+        }catch(InsufficentStockException insufficentStock){
+
+            StringWriter papper = new StringWriter();
+            PrintWriter penna = new PrintWriter(papper);
+            insufficentStock.printStackTrace(penna);
+            String  stachTraceString = papper.toString();
+            logger.log (insufficentStock.getMessage() +" \n" + stachTraceString);
+
+        } catch(DatabaseFailureException databaseFailure){
 
             StringWriter papper = new StringWriter();
             PrintWriter penna = new PrintWriter(papper);
             databaseFailure.printStackTrace(penna);
             String  stachTraceString = papper.toString();
             logger.log("DatabasFel " + databaseFailure.getMessage() +" \n" + stachTraceString);
-            throw databaseFailure;
+            throw new ItemScanFailureException(itemID);
 
         }
 

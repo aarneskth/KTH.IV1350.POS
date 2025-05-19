@@ -25,7 +25,7 @@ private static final DateTimeFormatter TimeAndDate = DateTimeFormatter.ofPattern
 
         try {
             logStream = new PrintWriter(
-                new FileWriter("Sales.txt"), true);
+                new FileWriter("SalesLog.txt"), true);
         } catch (IOException ioe) {
             System.out.println("CAN NOT LOG.");
             ioe.printStackTrace();
