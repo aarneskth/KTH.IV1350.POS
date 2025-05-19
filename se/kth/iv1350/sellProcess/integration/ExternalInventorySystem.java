@@ -11,13 +11,13 @@ public class ExternalInventorySystem {
     //private ItemDTO iteminfo;
 
     private final Map<String, InventoryObject> inventory = new HashMap<>();
-        
+    private static final ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();  
 
   /*
    * Creates an instance that creates the items in the inventory system.
    * 
    */
-    public ExternalInventorySystem(){
+    private ExternalInventorySystem(){
 
         String ost = "OST123";
         String honung = "HON123";
@@ -29,8 +29,13 @@ public class ExternalInventorySystem {
         inventory.put(sparris, new InventoryObject (new ItemDTO("Sparris",27.90,0.12,sparris, "grön"),4));
     }
 
-    public ItemDTO getItem(String itemID, int itemAmount) throws ItemCantBeRegException {
+    public ItemDTO getItem(String itemID, int itemAmount) throws ItemCantBeRegException, DatabaseFailureException {
 
+            if("DataBasFel123".equals(itemID)){
+
+                throw new DatabaseFailureException("Kan inte ansluta till databasen med artikel nummer"+ "\"" + itemID + "\""+ " DataBasFel");
+            }
+        
             if(itemAmount <= 0 || itemAmount%1 !=0){
 
                 throw new ItemCantBeRegException (ItemCantBeReg.NO_POS_INT,itemAmount);
@@ -75,7 +80,10 @@ public class ExternalInventorySystem {
     }
 }
 
+public static ExternalInventorySystem getExternalInventorySystem() {
 
-   
+    return externalInventorySystem;
+}
+
 
 }

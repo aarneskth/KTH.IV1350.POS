@@ -3,7 +3,6 @@ package se.kth.iv1350.sellProcess.integration.DTO;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-
 import se.kth.iv1350.sellProcess.model.Item;
 
 /*

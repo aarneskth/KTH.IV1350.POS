@@ -1,6 +1,6 @@
 package se.kth.iv1350.sellProcess.model;
-import se.kth.iv1350.sellProcess.integration.DiscountRegister;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
+import se.kth.iv1350.sellProcess.integration.DiscountRegister;
 public class Discount {
 
     private  String itemID;

@@ -2,7 +2,6 @@ package se.kth.iv1350.sellProcess.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
@@ -13,6 +12,10 @@ public class Sale {
     double VAT;
     double totalPrice;
     List<Item> itemList;
+    private double disocunt;
+    private Discount discounts;
+    private double chnages;
+    private  Change change;
     private SaleDTO theSale;
     private Item item;
     private ItemDTO itemDTO;
@@ -28,6 +31,8 @@ public class Sale {
     public Sale() {
 
         itemList = new ArrayList<>();
+    
+        
     }
 
        private void notifyObserver(){
@@ -81,9 +86,13 @@ public class Sale {
 
     public SaleDTO getSaleInfo() {
         double priceAfterDiscount = totalPrice - discount;
-        if(priceAfterDiscount < 0){
+
+        if(priceAfterDiscount < 0)
+        {
             priceAfterDiscount = 0;
         }
+    
+        
         theSale = new SaleDTO(VAT, priceAfterDiscount, discount, itemList);
         return theSale;
     }
@@ -120,8 +129,11 @@ public class Sale {
         return totalPrice;
     }
 
-    public void setDiscount(double discount){
+    public void setDiscount(double discount)
+    {   
         this.discount = discount;
+        
+        
     }
 
 }

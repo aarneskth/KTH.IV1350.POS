@@ -1,5 +1,7 @@
 package se.kth.iv1350.sellProcess.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import se.kth.iv1350.sellProcess.integration.*;
 import se.kth.iv1350.sellProcess.integration.DTO.*;
 import se.kth.iv1350.sellProcess.model.*;
@@ -11,6 +13,10 @@ public class Controller {
     private ExternalAccountingSystem accountingSystem;
     private CustomerMembershipRegister membershipRegister;
     private Discount discount;
+    private ItemDTO itemDTO;
+    private static final FileLogger logger = new FileLogger();
+    private static final ExternalInventorySystem externalInventorySystem = ExternalInventorySystem.getExternalInventorySystem();
+
 
     Sale sale = new Sale();
 
@@ -21,11 +27,11 @@ public class Controller {
      * of items, total price etc.
      */
 
-    public Controller(Printer printer, ExternalInventorySystem inventorySystem,
+    public Controller(Printer printer, 
             ExternalAccountingSystem accountingSystem) {
 
         this.printer = printer;
-        this.inventorySystem = inventorySystem;
+        //this.inventorySystem = inventorySystem;
         this.accountingSystem = accountingSystem;
         this.discount = new Discount();
         this.membershipRegister = new CustomerMembershipRegister();
@@ -47,10 +53,34 @@ public class Controller {
      * }
      */
 
-    public Item scanItem(String itemID, int itemAmount) throws ItemCantBeRegException{
-          
+    public Item scanItem(String itemID, int itemAmount) throws ItemCantBeRegException,DatabaseFailureException{
 
-      ItemDTO itemDTO = inventorySystem.getItem(itemID, itemAmount);
+
+
+        try {
+            this.itemDTO = externalInventorySystem.getItem(itemID, itemAmount);
+
+        } catch (ItemCantBeRegException regException) {
+
+            StringWriter papper = new StringWriter();
+            PrintWriter penna = new PrintWriter(papper);
+            regException.printStackTrace(penna);
+            String  stachTraceString = papper.toString();
+            logger.log(regException.getMessage() +" \n" + stachTraceString);
+          throw regException;
+
+        }catch(DatabaseFailureException databaseFailure){
+
+            StringWriter papper = new StringWriter();
+            PrintWriter penna = new PrintWriter(papper);
+            databaseFailure.printStackTrace(penna);
+            String  stachTraceString = papper.toString();
+            logger.log("DatabasFel " + databaseFailure.getMessage() +" \n" + stachTraceString);
+            throw databaseFailure;
+
+        }
+
+      //ItemDTO itemDTO = inventorySystem.getItem(itemID, itemAmount);
         return sale.scanitem(itemDTO, itemAmount); //lagt till retur+extinvsys /*, inventorySystem*/
     }
 

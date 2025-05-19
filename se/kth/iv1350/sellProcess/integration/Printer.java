@@ -1,9 +1,10 @@
 package se.kth.iv1350.sellProcess.integration;
 
+import java.text.DecimalFormat;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
+import se.kth.iv1350.sellProcess.model.Change;
 import se.kth.iv1350.sellProcess.model.Item;
 import se.kth.iv1350.sellProcess.model.Receipt;
-import java.text.DecimalFormat;
 
 public class Printer {
 
@@ -25,8 +26,10 @@ public class Printer {
 
     public void printReceipt(Receipt receipt, PayedAmount payedAmount) {
         DecimalFormat df = new DecimalFormat("#.00");
+      
         saleData = new StringBuilder();
         SaleDTO data = receipt.getReceipt();
+        Change changeAmount = new Change(payedAmount, data);
 
         saleData.append("\n-------------------KVITTO--------------------\n");
         saleData.append(String.format("%-30s %14s\n", "", "SEK"));
@@ -37,9 +40,7 @@ public class Printer {
         double unitPrice = item.getItemDTO().getItemPrice();
         double totalPrice = item.getPrice();
 
-        String quantityPart = quantity > 1
-            ? String.format("%d st * %s", quantity, df.format(unitPrice))
-            : "";  // Visa inget om bara 1 st
+        String quantityPart = quantity > 1 ? String.format("%d st * %s", quantity, df.format(unitPrice)): "";  // Visa inget om bara 1 st
 
         saleData.append(String.format("%-25s %-14s %6s\n",
                 name,
@@ -48,18 +49,20 @@ public class Printer {
         }
 
         saleData.append("---------------------------------\n");
-        saleData.append(String.format("%-40s %6s\n", "Moms:", df.format(data.getVAT())));
-        saleData.append(String.format("%-40s -%6s\n", "Avdragen rabatt:", df.format(data.getDiscount())));
-        saleData.append(String.format("%-40s %6s\n", "Att betala:", df.format(data.getTotalPrice())));
-        saleData.append(String.format("%-40s %6s\n", "Kontant betalning:", df.format(payedAmount.getAmount())));
+        saleData.append(String.format("%-40s %7s\n", "Moms:", df.format(data.getVAT())));
+        saleData.append(String.format("%-40s -%7s\n", "Avdragen rabatt:", df.format(data.getDiscount())));
+        saleData.append(String.format("%-40s %7s\n", "Att betala:", df.format(data.getTotalPrice())));
+        saleData.append(String.format("%-40s %7s\n", "Kontant betalning:", df.format(payedAmount.getAmount())));
 
-        double change = payedAmount.getAmount() - data.getTotalPrice();
-        saleData.append(String.format("%-40s %6s\n", "Växel:", df.format(change)));
+        changeAmount.calculateChange();
+        double change = changeAmount.getChange();
+        saleData.append(String.format("%-40s %7s\n", "Växel:", df.format(change)));
         saleData.append("---------------------------------------------\n");
         saleData.append("Välkommen åter!\n");
     }
 
-    public String getKvitto(){
+    public String getKvitto()
+    {
         return saleData.toString();
     }
 
