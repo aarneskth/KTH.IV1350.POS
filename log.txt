@@ -1,0 +1,21 @@
+Date and time: 2025-05-19 18:29:10 Varan med ID:nummret "FEL123" kunde ej hittas. Ej registrerad. 
+se.kth.iv1350.sellProcess.integration.ItemCantBeRegException: Varan med ID:nummret "FEL123" kunde ej hittas. Ej registrerad.
+	at se.kth.iv1350.sellProcess.integration.ExternalInventorySystem.getItem(ExternalInventorySystem.java:44)
+	at se.kth.iv1350.sellProcess.controller.Controller.scanItem(Controller.java:61)
+	at se.kth.iv1350.sellProcess.view.View.startSale(View.java:48)
+	at se.kth.iv1350.sellProcess.startup.Main.main(Main.java:17)
+
+Date and time: 2025-05-19 18:29:10 0 är ett ogiltigt antal. Registreras ej 
+se.kth.iv1350.sellProcess.integration.ItemCantBeRegException: 0 är ett ogiltigt antal. Registreras ej
+	at se.kth.iv1350.sellProcess.integration.ExternalInventorySystem.getItem(ExternalInventorySystem.java:41)
+	at se.kth.iv1350.sellProcess.controller.Controller.scanItem(Controller.java:61)
+	at se.kth.iv1350.sellProcess.view.View.startSale(View.java:48)
+	at se.kth.iv1350.sellProcess.startup.Main.main(Main.java:17)
+
+Date and time: 2025-05-19 18:29:10 DatabasFel Kan inte ansluta till databasen med artikel nummer"DataBasFel123" DataBasFel 
+se.kth.iv1350.sellProcess.integration.DatabaseFailureException: Kan inte ansluta till databasen med artikel nummer"DataBasFel123" DataBasFel
+	at se.kth.iv1350.sellProcess.integration.ExternalInventorySystem.getItem(ExternalInventorySystem.java:36)
+	at se.kth.iv1350.sellProcess.controller.Controller.scanItem(Controller.java:61)
+	at se.kth.iv1350.sellProcess.view.View.startSale(View.java:48)
+	at se.kth.iv1350.sellProcess.startup.Main.main(Main.java:17)
+
