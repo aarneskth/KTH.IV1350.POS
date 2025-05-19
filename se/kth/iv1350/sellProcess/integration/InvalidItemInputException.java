@@ -29,8 +29,8 @@ public class InvalidItemInputException extends Exception {
         return switch(type){
 
             case NO_POS_INT -> {
-              double antal = (double)info;
-              yield antal + " är ett ogiltigt antal. Vänlig korrigera varuantalet.";
+              
+              yield info + " är ett ogiltigt antal. Vänlig korrigera varuantalet.";
 
             }
             case ID_NOT_FOUND -> {

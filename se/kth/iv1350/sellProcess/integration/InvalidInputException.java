@@ -23,8 +23,8 @@ public class InvalidInputException extends Exception{
         return switch(type){
 
             case NO_POS_INT -> {
-              double antal = (double)info;
-              yield antal + " felaktigt angivet som varuantal. Logg sparad.";
+              
+              yield info + " felaktigt angivet som varuantal. Logg sparad.";
 
             }
             case ID_NOT_FOUND -> {
