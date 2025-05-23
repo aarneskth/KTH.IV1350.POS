@@ -15,7 +15,7 @@ public class ItemTest {
 
     @BeforeEach
     void setUp() {
-        itemDTO = new ItemDTO("MILK", 20, 0.12, "MILK123");
+        itemDTO = new ItemDTO("Ost", 20, 0.12, "Ost123", "lagrad");
         item = new Item(itemDTO, 2);
     }
 
@@ -32,12 +32,12 @@ public class ItemTest {
 
     @Test
     void testGetItemID() {
-        assertEquals("MILK123", item.getItemID());
+        assertEquals("Ost123", item.getItemID());
     }
 
     @Test
     void testGetName() {
-        assertEquals("MILK", item.getName());
+        assertEquals("Ost", item.getName());
     }
 
     @Test

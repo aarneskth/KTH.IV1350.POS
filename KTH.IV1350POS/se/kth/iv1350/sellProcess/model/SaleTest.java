@@ -3,6 +3,8 @@ package se.kth.iv1350.sellProcess.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 import se.kth.iv1350.sellProcess.integration.PayedAmount;
 import se.kth.iv1350.sellProcess.integration.Printer;
@@ -26,27 +28,27 @@ public class SaleTest {
 
     @Test
     void testCalculateTotalVAT() {
-        sale.scanitem("GLASS123", 1);
+        sale.scanitem(new ItemDTO("Sparris", 20, 0.12, "SPA123", "gul"), 1);
         double vat = sale.calculateTotalVAT();
         assertTrue(vat > 0, "Moms bör vara större än 0 efter en vara skannats.");
     }
 
     @Test
     void testCalculateTotalPriceWithVat() {
-        sale.scanitem("GLASS123", 2);
-        sale.scanitem("MJÖLK123", 1);
+        sale.scanitem(new ItemDTO("Sparris", 20, 0.12, "SPA123", "gul"), 1);
+        sale.scanitem(new ItemDTO("Ost", 30, 0.12, "OST123", "blåmögel"), 1);
         sale.calculateTotalVAT();
         double total = sale.calculateTotalPriceWithVat();
-        assertEquals(44.8, total);
+        assertEquals(56, total);
     }
 
     @Test
     void testGetSaleInfo() {
-        sale.scanitem("MJÖLK123", 1);
+        sale.scanitem(new ItemDTO("Sparris", 20, 0.12, "SPA123", "grön"), 1);
         SaleDTO info = sale.getSaleInfo();
         assertNotNull(info);
         assertNotEquals(1, info.getAllItems());
-        assertEquals("MJÖLK", info.getAllItems().get(0).getName());
+        assertEquals("Sparris", info.getAllItems().get(0).getName());
 
     }
 
@@ -63,9 +65,15 @@ public class SaleTest {
     @Test
     void testScanitem() {
 
-        sale.scanitem("GLASS123", 3);
-        sale.scanitem("GLASS124", 3);
+        sale.scanitem(new ItemDTO("Sparris", 20, 0.12, "SPA123", "gul"), 1);
+        sale.scanitem(new ItemDTO("Ost", 30, 0.12, "OST123", "blåmögel"), 2);
+        sale.scanitem(new ItemDTO("Bröd", 30, 0.12, "BRO123", "Leksands"), 3);
         SaleDTO info = sale.getSaleInfo();
-        assertEquals(3, info.getAllItems().get(0).itemGetAmount());
+        int counter = 0;
+        for (int i = 0; i < info.getAllItems().size(); i++) {
+            counter += info.getAllItems().get(i).itemGetAmount();
+            
+        }
+        assertEquals(6, counter);
     }
 }
