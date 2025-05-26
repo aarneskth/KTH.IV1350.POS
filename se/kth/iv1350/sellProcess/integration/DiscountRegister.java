@@ -5,14 +5,14 @@ import java.util.List;
 
 import se.kth.iv1350.sellProcess.integration.DTO.CustomerDTO;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
-import se.kth.iv1350.sellProcess.model.Discount;
+import se.kth.iv1350.sellProcess.model.DiscountOLD;
 
 public class DiscountRegister {
 
     private final double memberDiscountRate = 0.10;
     private final double percentToBeReduced;
     private final double sumToBeReduced;
-    private List<Discount> discounts = new ArrayList<>();
+    private List<DiscountOLD> discounts = new ArrayList<>();
 
     /*
      *   

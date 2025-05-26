@@ -15,6 +15,7 @@ public class Item {
     private int amount;
     private ItemDTO itemDTO;
     private String itemID;
+    private String itemInfo;
 
     /*
      * Creates a new instance, which represents a specific product.
@@ -32,6 +33,7 @@ public class Item {
         this.amount = itemAmount;
         this.itemDTO = itemDTO;
         this.itemID = itemDTO.getItemID();
+        this.itemInfo = itemDTO.getItemInfo();
 
     }
 
@@ -47,7 +49,7 @@ public class Item {
 
     public double getPrice() {
         double pris = 0;
-        pris = price * itemGetAmount(); // to calcylate the amount of items scanned with the same item ID
+        pris = price * getItemAmount(); // to calcylate the amount of items scanned with the same item ID
         return pris;
     }
 
@@ -61,9 +63,14 @@ public class Item {
         return itemID;
     }
 
-    public int itemGetAmount() {
+    public int getItemAmount() {
 
         return amount;
+    }
+
+    public String getItemInfo() {
+        
+        return itemInfo;
     }
 
     /*@Override

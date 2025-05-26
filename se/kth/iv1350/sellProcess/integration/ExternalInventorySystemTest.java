@@ -33,7 +33,7 @@ private ExternalInventorySystem inventorySystem;
         item = new Item(itemDTO, 1);
         assertNotNull(item, "Ska ej returnera null.");
         assertEquals("OST123", item.getItemID());
-        assertEquals(1, item.itemGetAmount());
+        assertEquals(1, item.getItemAmount());
     }
 
         @Test
@@ -54,13 +54,6 @@ private ExternalInventorySystem inventorySystem;
     void testInvalidInputNoID()  {
         assertThrows (InvalidInputException.class, () ->{
             inventorySystem.getItem("FEL_ID", 1);
-        });
-    }
-
-        @Test
-    void testUnsufficientStock()  {
-        assertThrows (InsufficentStockException.class, () ->{
-            inventorySystem.getItem("SPA123", 5);
         });
     }
 

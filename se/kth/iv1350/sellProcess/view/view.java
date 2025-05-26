@@ -13,8 +13,6 @@ public class View {
   //private final FileLogger logger = new FileLogger();
     public View(Controller controller) {
         this.controller = controller;
-        TotalRevenueView totalRevenueView = new TotalRevenueView();
-        controller.addSaleObserver(totalRevenueView);
     }
 
     public void startSale()  {
@@ -44,8 +42,8 @@ public class View {
 
             stringID = string[0];
             amount = Integer.parseInt(string[1]);
-
-        Item item = controller.scanItem(stringID,amount);
+    
+            controller.scanItem(stringID,amount);
 
         } catch (InvalidItemInputException invalidScan){
             System.out.println (invalidScan.getMessage());
@@ -56,7 +54,7 @@ public class View {
 
         }catch(ItemScanFailureException itemscan){
 
-            itemscan.getMessage();
+            System.out.println(itemscan.getMessage());
         }
         
         

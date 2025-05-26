@@ -12,13 +12,8 @@ public class Sale {
     double VAT;
     double totalPrice;
     List<Item> itemList;
-    private double disocunt;
-    private Discount discounts;
-    private double chnages;
-    private  Change change;
     private SaleDTO theSale;
     private Item item;
-    private ItemDTO itemDTO;
     private List<SaleObserver> observers = new ArrayList<>();
     private double totalRevenue;
 

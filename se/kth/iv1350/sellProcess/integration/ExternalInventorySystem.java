@@ -7,8 +7,6 @@ import se.kth.iv1350.sellProcess.model.Item;
 
 
 public class ExternalInventorySystem {
-    //private Item inventory;
-    //private ItemDTO iteminfo;
 
     private final Map<String, InventoryObject> inventory = new HashMap<>();
     private static final ExternalInventorySystem externalInventorySystem = new ExternalInventorySystem();  
@@ -29,7 +27,21 @@ public class ExternalInventorySystem {
         inventory.put(sparris, new InventoryObject (new ItemDTO("Sparris",27.90,0.12,sparris, "grön"),4));
     }
 
-    public ItemDTO getItem(String itemID, int itemAmount) throws InvalidInputException, DatabaseFailureException, InsufficentStockException {
+    /*
+    * getItem               Representing the process of getting all the info about an item from
+                            the item inventory.
+    * @param itemID        Representing the barcode on the item for scanning the item.
+    * @param itemAmount    The amount of the specific item to be scanned.
+    * 
+     * @throws InvalidInputException        Throws an exception if the itemID is not found, or if 
+     *                                      the item amount is typed wrongly like 0 or -1.
+     *                                      The Exception has two enums that the case of not ID from
+     *                                      the case of wrongly typed item amount.  
+     * @throws DatabaseFailureException     Throws an exception if the inventory database is 
+     *                                      not found. 
+    */
+
+    public ItemDTO getItem(String itemID, int itemAmount) throws InvalidInputException, DatabaseFailureException {
 
             if("DataBasFel123".equals(itemID)){
 
@@ -46,24 +58,11 @@ public class ExternalInventorySystem {
                 throw new InvalidInputException(InvalidInput.ID_NOT_FOUND, itemID);
             }
 
-            if(itemAmount > inventory.get(itemID).getItemAmount())
-            {
-                throw new InsufficentStockException(itemID);
-            }
             inventory.get(itemID).setNewAmount(itemAmount);
             
            return inventory.get(itemID).getItemDTO();
         }
         
-
-    private  boolean itemInInventory(String itemID){
-        
-        if(inventory.get(itemID) != null){
-        return true;
-        }
-        
-        return false;
-    }
 
     
     /*
@@ -76,7 +75,7 @@ public class ExternalInventorySystem {
         
     for (Item soldItem : saleInfo.getAllItems()) {
         String itemID = soldItem.getItemID();
-        int amountSold = soldItem.itemGetAmount();
+        int amountSold = soldItem.getItemAmount();
 
         ItemDTO itemInInventory = inventory.get(itemID).getItemDTO();
         if (itemInInventory != null) {

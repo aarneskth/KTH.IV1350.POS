@@ -1,7 +1,6 @@
 package se.kth.iv1350.sellProcess.model;
 
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
-import se.kth.iv1350.sellProcess.integration.PayedAmount;
 
 public class Change {
 

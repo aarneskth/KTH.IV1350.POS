@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import se.kth.iv1350.sellProcess.model.PayedAmount;
 import se.kth.iv1350.sellProcess.model.Receipt;
 import se.kth.iv1350.sellProcess.model.Sale;
 

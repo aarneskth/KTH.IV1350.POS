@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import se.kth.iv1350.sellProcess.integration.DTO.ItemDTO;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
-import se.kth.iv1350.sellProcess.integration.PayedAmount;
 import se.kth.iv1350.sellProcess.integration.Printer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,7 +70,7 @@ public class SaleTest {
         SaleDTO info = sale.getSaleInfo();
         int counter = 0;
         for (int i = 0; i < info.getAllItems().size(); i++) {
-            counter += info.getAllItems().get(i).itemGetAmount();
+            counter += info.getAllItems().get(i).getItemAmount();
             
         }
         assertEquals(6, counter);

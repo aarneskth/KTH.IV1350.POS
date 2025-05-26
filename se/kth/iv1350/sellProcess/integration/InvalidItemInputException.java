@@ -40,7 +40,7 @@ public class InvalidItemInputException extends Exception {
             }
             case ID_NOT_FOUND -> {
               String itemID = (String) info;
-              yield "Varukoden" + "\"" + itemID + "\" finns inte i databasen. Varan är ej registrerad, måste registreras manuellt. ";
+              yield "Varukoden" + "\"" + itemID + "\" finns inte i databasen. Varan är ej registrerad. ";
             }
             
         };

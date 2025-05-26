@@ -1,36 +1,20 @@
 package se.kth.iv1350.sellProcess.model;
-import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
-import se.kth.iv1350.sellProcess.integration.DiscountRegister;
+
+import java.util.List;
+
 public class Discount {
+    public double calculateDiscount(List<Item> items, double totalPrice, boolean isMember) {
+        double totalDiscount = 0;
 
-    private  String itemID;
-    private  double percentage;
-    private  double fixedDiscount;
-    private  double req;
-    private DiscountRegister register;
+        DiscountPercentPriceBased disc1 = (DiscountPercentPriceBased) DiscountFactory.getDiscount("totalprisrabatt");
+        totalDiscount += disc1.getDiscount(totalPrice);
 
-    /*
-     * Creates a new instance, represents the discount of the price in percentage and/or amount based.
-     * 
-     * 
-     */
+        DiscountPercentMembershipBased disc2 = (DiscountPercentMembershipBased) DiscountFactory.getDiscount("medlemsrabatt");
+        totalDiscount += disc2.getDiscount(totalPrice, isMember);
 
-    public Discount(){
-        this.register = new DiscountRegister();  
+        DiscountFixedItemBased disc3 = (DiscountFixedItemBased) DiscountFactory.getDiscount("varurabatt")
+        totalDiscount += disc3.getDiscount(items);
+
+
     }
-
-    /*
-     * checkDiscount            Checks if the customer is eligible for discounts stored in the discount register.  
-     * 
-     * @param   saleinfo         representing the information of the sale including the list of items, total price etc.
-     *          membershipStatus contains a boolean value that tells if the customer is a member or not.
-     * 
-     * @return                   return the value of the discount tha the customer is eligible for. 
-     */
-
-    public double checkDiscount(SaleDTO saleInfo, boolean membershipStatus){
-        
-        return register.checkDiscount(saleInfo, membershipStatus);
-    }
-
 }

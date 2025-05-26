@@ -52,6 +52,6 @@ public class ItemTest {
 
     @Test
     void testItemGetAmount() {
-        assertEquals(2, item.itemGetAmount());
+        assertEquals(2, item.getItemAmount());
     }
 }

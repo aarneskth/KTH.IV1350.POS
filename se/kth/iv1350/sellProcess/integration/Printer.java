@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import se.kth.iv1350.sellProcess.integration.DTO.SaleDTO;
 import se.kth.iv1350.sellProcess.model.Change;
 import se.kth.iv1350.sellProcess.model.Item;
+import se.kth.iv1350.sellProcess.model.PayedAmount;
 import se.kth.iv1350.sellProcess.model.Receipt;
 
 public class Printer {
@@ -36,7 +37,7 @@ public class Printer {
         for (Item item : data.getAllItems()) {
 
         String name = item.getItemDTO().getItemName() + " " + item.getItemDTO().getItemInfo(); 
-        int quantity = item.itemGetAmount();
+        int quantity = item.getItemAmount();
         double unitPrice = item.getItemDTO().getItemPrice();
         double totalPrice = item.getPrice();
 

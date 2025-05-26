@@ -13,7 +13,7 @@ public class Controller {
     private ExternalInventorySystem inventorySystem;
     private ExternalAccountingSystem accountingSystem;
     private CustomerMembershipRegister membershipRegister;
-    private Discount discount;
+    private DiscountOLD discount;
     private ItemDTO itemDTO;
     private static final FileLogger logger = new FileLogger();
     private static final ExternalInventorySystem externalInventorySystem = ExternalInventorySystem.getExternalInventorySystem();
@@ -22,10 +22,13 @@ public class Controller {
     Sale sale = new Sale();
 
     /*
-     * creates a new instance, Represents the Con you get as a proof of the payment.
+     * creates a new instance, representing the construktor of the Controller
      * 
-     * @param saleinfo representing the information of the sale including the list
-     * of items, total price etc.
+     * @param printer           takes an object of the printer for printing the receipt
+     * @param accountingSystem  takes an object of the ExternalAccountingSystem to store the
+     *                          economical related information about every sale. Not yet implemented.
+     * 
+     * 
      */
 
     public Controller(Printer printer, 
@@ -34,9 +37,14 @@ public class Controller {
         this.printer = printer;
         //this.inventorySystem = inventorySystem;
         this.accountingSystem = accountingSystem;
-        this.discount = new Discount();
+        this.discount = new DiscountOLD();
         this.membershipRegister = new CustomerMembershipRegister();
     }
+
+    /*
+    * startSale         creates an object of Sale
+    * 
+    */
 
     public void startSale() {
 
@@ -44,14 +52,18 @@ public class Controller {
     }
 
     /*
-     * public void registrerItemID(String itemName, double itemPrice, double
-     * itemVATRate, String itemID) {
+     * scanItem         Register every item to be scanned for buying including the amount of 
+     *                  the item.
      * 
-     * //double vatrate = 0.13;
-     * sale.additem(itemName, itemPrice, itemVATRate, itemID);
+     * @param itemID        Representing the barcode on the item for scanning the item.
+     * @param itemAmount    The amount of the specific item to be scanned.
      * 
      * 
-     * }
+     * @throws InvalidItemInputException    Throws an exception if the itemID is not found, or if 
+     *                                      the item amount is typed wrongly like 0 or -1.    
+     * @throws ItemScanFailureException     Throws an exception if the inventory database is 
+     *                                      not found.
+     * 
      */
 
     public Item scanItem(String itemID, int itemAmount) throws ItemScanFailureException, InvalidItemInputException{
@@ -60,22 +72,7 @@ public class Controller {
             this.itemDTO = externalInventorySystem.getItem(itemID, itemAmount);
 
         } catch (InvalidInputException regException) {
-
-            StringWriter papper = new StringWriter();
-            PrintWriter penna = new PrintWriter(papper);
-            regException.printStackTrace(penna);
-            String  stachTraceString = papper.toString();
-            logger.log(regException.getMessage() +" \n" + stachTraceString);
-          
             throw new InvalidItemInputException(regException.getReason(),regException.getObjects());
-
-        }catch(InsufficentStockException insufficentStock){
-
-            StringWriter papper = new StringWriter();
-            PrintWriter penna = new PrintWriter(papper);
-            insufficentStock.printStackTrace(penna);
-            String  stachTraceString = papper.toString();
-            logger.log (insufficentStock.getMessage() +" \n" + stachTraceString);
 
         } catch(DatabaseFailureException databaseFailure){
 
@@ -87,29 +84,44 @@ public class Controller {
             throw new ItemScanFailureException(itemID);
 
         }
-
-      //ItemDTO itemDTO = inventorySystem.getItem(itemID, itemAmount);
-        return sale.scanitem(itemDTO, itemAmount); //lagt till retur+extinvsys /*, inventorySystem*/
+        return sale.scanitem(itemDTO, itemAmount);
     }
 
         /*
-         * ItemDTO glass = new ItemDTO(itemID, itemAmount, itemAmount, itemID);
-         * 
-         * ItemDTO ItemDTO = inventorySystem.getItem(itemID);
-         * Item apple = new Item(ItemDTO,2);
-         */
+     * pay                  Representing the process of paying for the entire sale.
+     * 
+     * @param payedAmount   The amount to be payed.
+     * 
+     */
 
     public void pay(PayedAmount payedAmount) {
 
         sale.printReceipt(printer, payedAmount);
     }
 
+    /*
+     * checkDiscount            Representing the process of paying for the entire sale.
+     * 
+     * @param membershipStatus  takes in a boolean of true or false, true if the customer 
+     *                          is a member, false if not.                        
+     * 
+     */
+
     public void checkDiscount(boolean membershipStatus) {
         SaleDTO saleInfo = sale.getSaleInfo();
         double discountAmount = discount.checkDiscount(saleInfo, membershipStatus);
         sale.setDiscount(discountAmount);
         sale.calculateTotalPriceWithVat();
+
+
     }
+
+     /*
+     * checkMembershipStatus    represent the check process if the costumer is a member
+     * 
+     * @param customerName      Takes in the name of the customer as a String. 
+     * @param customerID        Takes in the ID of the customer as a String.
+     */
 
     public boolean checkMembershipStatus(String customerName, String customerID) {
 
