@@ -1,0 +1,7 @@
+Date and time: 2025-06-02 01:55:50 DatabasFel Kunde inte ansluta till databasen med artikelnummer: DataBasFel123. 
+se.kth.iv1350.sellProcess.integration.DatabaseFailureException: Kunde inte ansluta till databasen med artikelnummer: DataBasFel123.
+	at se.kth.iv1350.sellProcess.integration.ExternalInventorySystem.getItem(ExternalInventorySystem.java:50)
+	at se.kth.iv1350.sellProcess.controller.Controller.scanItem(Controller.java:69)
+	at se.kth.iv1350.sellProcess.view.View.startSale(View.java:46)
+	at se.kth.iv1350.sellProcess.startup.Main.main(Main.java:16)
+
